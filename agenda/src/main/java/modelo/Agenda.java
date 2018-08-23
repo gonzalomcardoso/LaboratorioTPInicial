@@ -29,5 +29,11 @@ public class Agenda
 	{
 		return this.persona.readAll();		
 	}
+
+	public void editarPersona(PersonaDTO nuevaPersona) {
+		
+		this.persona.update(nuevaPersona);
+		
+	}
 	
 }

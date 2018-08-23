@@ -13,6 +13,7 @@ public class Controlador implements ActionListener
 {
 		private Vista vista;
 		private List<PersonaDTO> personas_en_tabla;
+		private PersonaDTO persona_a_editar;
 		private VentanaPersona ventanaPersona; 
 		private Agenda agenda;
 		
@@ -33,6 +34,13 @@ public class Controlador implements ActionListener
 			this.vista.show();
 		}
 		
+		public PersonaDTO personaEditable()
+		{
+			
+			return this.persona_a_editar;
+		}
+		
+		
 		private void llenarTabla()
 		{
 			this.vista.getModelPersonas().setRowCount(0); //Para vaciar la tabla
@@ -49,7 +57,7 @@ public class Controlador implements ActionListener
 		
 		public void actionPerformed(ActionEvent e) 
 		{
-			int fila_seleccionada;
+			
 			
 			if(e.getSource() == this.vista.getBtnAgregar())
 			{
@@ -58,21 +66,11 @@ public class Controlador implements ActionListener
 			
 			else if(e.getSource() == this.vista.getBtnEditar())
 			{
-				fila_seleccionada = this.vista.getTablaPersonas().getSelectedRow();
+				int fila_seleccionada = this.vista.getTablaPersonas().getSelectedRow();
 				
-				PersonaDTO persona = this.personas_en_tabla.get(fila_seleccionada);
+				this.persona_a_editar = this.personas_en_tabla.get(fila_seleccionada);
 				
-				this.ventanaPersona = new VentanaPersona(this,persona);
-				
-				if(e.getSource() == this.ventanaPersona.getBtnEditarPersona())
-				{
-					this.agenda.borrarPersona(persona);
-					persona.setNombre(this.ventanaPersona.getTxtNombre().getText());
-					persona.setTelefono(this.ventanaPersona.getTxtTelefono().getText());
-					this.agenda.agregarPersona(persona);
-					this.llenarTabla();
-					this.ventanaPersona.dispose();
-				}
+				this.ventanaPersona = new VentanaPersona(this);
 				
 				
 			}
@@ -100,7 +98,16 @@ public class Controlador implements ActionListener
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
 			}
-			
+
+			else if(e.getSource() == this.ventanaPersona.getBtnEditarPersona())
+			{
+				
+				this.persona_a_editar.setNombre(this.ventanaPersona.getTxtNombre().getText());
+				this.persona_a_editar.setTelefono(this.ventanaPersona.getTxtTelefono().getText());
+				this.agenda.editarPersona(this.persona_a_editar);
+				this.llenarTabla();
+				this.ventanaPersona.dispose();
+			}
 		}
 
 }

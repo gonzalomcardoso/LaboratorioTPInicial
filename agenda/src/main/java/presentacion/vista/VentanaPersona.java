@@ -91,24 +91,42 @@ public class VentanaPersona extends JFrame
 		lblTelfono.setBounds(10, 52, 113, 14);
 		panel.add(lblTelfono);
 		
-		txtNombre = new JTextField();
+		
+		
+		if (controlador.personaEditable()!=null){
+			txtNombre = new JTextField(controlador.personaEditable().getNombre());
+			txtTelefono = new JTextField(controlador.personaEditable().getTelefono());
+			
+			
+			btnEditarPersona = new JButton("Editar");
+			btnEditarPersona.addActionListener(this.controlador);
+			btnEditarPersona.setBounds(208, 92, 89, 23);
+			panel.add(btnEditarPersona);
+			
+			this.setVisible(true);
+			
+		}else{
+			txtNombre = new JTextField();
+			txtTelefono = new JTextField();
+			
+			btnAgregarPersona = new JButton("Agregar");
+			btnAgregarPersona.addActionListener(this.controlador);
+			btnAgregarPersona.setBounds(208, 92, 89, 23);
+			panel.add(btnAgregarPersona);
+			
+			this.setVisible(true);
+		}
+		
+		
 		txtNombre.setBounds(133, 8, 164, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		txtTelefono = new JTextField();
+		
 		txtTelefono.setBounds(133, 49, 164, 20);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
-		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.addActionListener(this.controlador);
-		btnAgregarPersona.setBounds(208, 92, 89, 23);
-		panel.add(btnAgregarPersona);
-		
-		this.setVisible(true);
-		
-		//new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText());
 	}
 	
 	public JTextField getTxtNombre() 
@@ -128,7 +146,7 @@ public class VentanaPersona extends JFrame
 	
 	public JButton getBtnEditarPersona() 
 	{
-		return btnAgregarPersona;
+		return btnEditarPersona;
 	}
 	
 }
