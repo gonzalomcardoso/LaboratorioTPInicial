@@ -39,14 +39,14 @@ public class VentanaPersona extends JFrame
 		this.controlador = controlador;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 343, 183);
+		setBounds(100, 100, 611, 556);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 123);
+		panel.setBounds(12, 22, 582, 500);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -59,27 +59,27 @@ public class VentanaPersona extends JFrame
 		panel.add(lblTelfono);
 		
 		JLabel lblCalle = new JLabel("Calle");
-		lblTelfono.setBounds(10, 93, 113, 14);
+		lblCalle.setBounds(10, 93, 113, 14);
 		panel.add(lblCalle);
 
 		JLabel lblAltura = new JLabel("Altura");
-		lblTelfono.setBounds(10, 134, 113, 14);
+		lblAltura.setBounds(10, 134, 113, 14);
 		panel.add(lblAltura);
 		
 		JLabel lblPiso = new JLabel("Piso");
-		lblTelfono.setBounds(10, 175, 113, 14);
+		lblPiso.setBounds(10, 175, 113, 14);
 		panel.add(lblPiso);
 		
 		JLabel lblLocalidad = new JLabel("Localidad");
-		lblTelfono.setBounds(10, 116, 113, 14);
+		lblLocalidad.setBounds(10, 216, 113, 14);
 		panel.add(lblLocalidad);
 		
 		JLabel lblMail = new JLabel("Mail");
-		lblTelfono.setBounds(10, 157, 113, 14);
+		lblMail.setBounds(10, 257, 113, 14);
 		panel.add(lblMail);
 		
 		JLabel lblContacto = new JLabel("Tipo de Contacto");
-		lblTelfono.setBounds(10, 52, 113, 14);
+		lblContacto.setBounds(10, 298, 113, 14);
 		panel.add(lblContacto);
 		
 		txtNombre = new JTextField();
@@ -107,9 +107,9 @@ public class VentanaPersona extends JFrame
 			txtContacto = new JTextField(controlador.personaEditable().getContacto());
 			
 			
-			btnEditarPersona = new JButton("Editar");
+			btnEditarPersona = new JButton("Editar Persona");
 			btnEditarPersona.addActionListener(this.controlador);
-			btnEditarPersona.setBounds(208, 92, 89, 23);
+			btnEditarPersona.setBounds(208, 369, 89, 23);
 			panel.add(btnEditarPersona);
 			
 			this.setVisible(true);
@@ -117,9 +117,9 @@ public class VentanaPersona extends JFrame
 		}else{
 			
 			
-			btnAgregarPersona = new JButton("Agregar");
+			btnAgregarPersona = new JButton("Agregar Persona");
 			btnAgregarPersona.addActionListener(this.controlador);
-			btnAgregarPersona.setBounds(208, 92, 89, 23);
+			btnAgregarPersona.setBounds(208, 369, 164, 20);
 			panel.add(btnAgregarPersona);
 			
 			
@@ -138,31 +138,31 @@ public class VentanaPersona extends JFrame
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
-		txtCalle.setBounds(133, 8, 164, 20);
+		txtCalle.setBounds(133, 93, 164, 20);
 		panel.add(txtCalle);
 		txtCalle.setColumns(10);
 		
-		txtAltura.setBounds(133, 8, 164, 20);
+		txtAltura.setBounds(133, 134, 164, 20);
 		panel.add(txtAltura);
 		txtAltura.setColumns(10);
 		
-		txtPiso.setBounds(133, 8, 164, 20);
+		txtPiso.setBounds(133, 175, 164, 20);
 		panel.add(txtPiso);
 		txtPiso.setColumns(10);
 		
-		txtLocalidad.setBounds(133, 8, 164, 20);
+		txtLocalidad.setBounds(133, 216, 164, 20);
 		panel.add(txtLocalidad);
 		
 		btnAgregarLocalidad = new JButton("Agregar Localidad");
 		btnAgregarLocalidad.addActionListener(this.controlador);
-		btnAgregarLocalidad.setBounds(133, 92, 164, 20);
+		btnAgregarLocalidad.setBounds(369, 216, 164, 20);
 		panel.add(btnAgregarLocalidad);
 		
-		txtMail.setBounds(133, 8, 164, 20);
+		txtMail.setBounds(133, 257, 164, 20);
 		panel.add(txtMail);
 		txtMail.setColumns(10);
 		
-		txtContacto.setBounds(133, 8, 164, 20);
+		txtContacto.setBounds(133, 298, 164, 20);
 		panel.add(txtContacto);
 		txtContacto.setColumns(10);
 		
@@ -215,7 +215,7 @@ public class VentanaPersona extends JFrame
 	
 	public JButton getBtnAgregarLocalidad() 
 	{
-		return btnAgregarPersona;
+		return btnAgregarLocalidad;
 	}
 	
 }

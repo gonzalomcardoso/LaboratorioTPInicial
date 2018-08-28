@@ -41,6 +41,8 @@ public class VentanaLocalidad extends JFrame
 		lblCodPostal.setBounds(10, 52, 113, 14);
 		panel.add(lblCodPostal);
 		
+		
+		
 		txtNombre = new JTextField();
 		txtCodPostal = new JTextField();
 			
@@ -51,6 +53,14 @@ public class VentanaLocalidad extends JFrame
 		panel.add(btnAgregarLocalidad);
 			
 		this.setVisible(true);
+		
+		txtNombre.setBounds(133, 8, 164, 20);
+		panel.add(txtNombre);
+		txtNombre.setColumns(10);
+		
+		txtCodPostal.setBounds(133, 49, 164, 20);
+		panel.add(txtCodPostal);
+		txtCodPostal.setColumns(10);
 	}
 
 	public JTextField getTxtNombre() {

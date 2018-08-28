@@ -12,8 +12,8 @@ import dto.LocalidadDTO;
 
 public class LocalidadDAOSQL implements LocalidadDAO {
 	
-	private static final String insert = "INSERT INTO localidades (idLocalidades, nombre, codPostal) VALUES(?, ?, ?)";
-	private static final String delete = "DELETE FROM localidades WHERE idlocalidad = ?";
+	private static final String insert = "INSERT INTO localidades (idLocalidad, Nombre, CodigoPostal) VALUES(?, ?, ?)";
+	private static final String delete = "DELETE FROM localidades WHERE idLocalidad = ?";
 	private static final String readall = "SELECT * FROM localidades";
 	private static final String update = "UPDATE localidades SET nombre = ?, codPostal = ? WHERE idLocalidad = ?";
 	private static final String search = "SELECT * FROM localidades WHERE nombre = ? order by idLocalidad asc";

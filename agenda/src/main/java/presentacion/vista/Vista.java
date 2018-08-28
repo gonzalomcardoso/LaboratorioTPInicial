@@ -54,6 +54,18 @@ public class Vista
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(2).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(2).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(3).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(3).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(4).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(4).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(5).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(5).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(6).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(6).setResizable(false);
+		tablaPersonas.getColumnModel().getColumn(7).setPreferredWidth(100);
+		tablaPersonas.getColumnModel().getColumn(7).setResizable(false);
 		
 		spPersonas.setViewportView(tablaPersonas);
 		

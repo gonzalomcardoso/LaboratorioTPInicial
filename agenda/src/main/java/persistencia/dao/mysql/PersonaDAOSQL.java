@@ -13,10 +13,10 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono, calle, altura, piso, idLocalidad, mail, idContacto) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono, calle, altura, piso, Localidad, mail, TipoContacto) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, calle = ?, altura = ?, piso = ?, idLocalidad = ?, mail = ?, idContacto = ? WHERE idPersona = ?";
+	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, calle = ?, altura = ?, piso = ?, Localidad = ?, mail = ?, idContacto = ? WHERE idPersona = ?";
 		
 	public boolean insert(PersonaDTO persona)
 	{
@@ -78,7 +78,7 @@ public class PersonaDAOSQL implements PersonaDAO
 			
 			while(resultSet.next())
 			{
-				personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"), resultSet.getString("Telefono"),  resultSet.getString("Direccion"),  resultSet.getString("Altura"),  resultSet.getString("Piso"), new LocalidadDTO(0,resultSet.getString("Localidad"),""),  resultSet.getString("Mail"),  resultSet.getInt("TipoContacto")));
+				personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"), resultSet.getString("Telefono"),  resultSet.getString("Calle"),  resultSet.getString("Altura"),  resultSet.getString("Piso"), new LocalidadDTO(0,resultSet.getString("Localidad"),""),  resultSet.getString("Mail"),  resultSet.getInt("TipoContacto")));
 			}
 		} 
 		catch (SQLException e) 

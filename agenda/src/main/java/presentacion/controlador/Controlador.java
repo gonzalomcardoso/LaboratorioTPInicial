@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import modelo.Agenda;
-import persistencia.dao.interfaz.LocalidadDAO;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaLocalidad;
 import presentacion.vista.VentanaPersona;
@@ -58,10 +57,21 @@ public class Controlador implements ActionListener
 			this.vista.getModelPersonas().setColumnCount(0);
 			this.vista.getModelPersonas().setColumnIdentifiers(this.vista.getNombreColumnas());
 			
+			
 			this.personas_en_tabla = agenda.obtenerPersonas();
 			for (int i = 0; i < this.personas_en_tabla.size(); i ++)
 			{
-				Object[] fila = {this.personas_en_tabla.get(i).getNombre(), this.personas_en_tabla.get(i).getTelefono()};
+				Object[] fila = {
+						this.personas_en_tabla.get(i).getNombre(), 
+						this.personas_en_tabla.get(i).getTelefono(),
+						this.personas_en_tabla.get(i).getCalle(),
+						this.personas_en_tabla.get(i).getAltura(),
+						this.personas_en_tabla.get(i).getPiso(),
+						this.personas_en_tabla.get(i).getLocalidad().getNombre(),
+						this.personas_en_tabla.get(i).getMail(),
+						this.personas_en_tabla.get(i).getContacto(),
+						
+						};
 				this.vista.getModelPersonas().addRow(fila);
 			}			
 		}
@@ -110,11 +120,12 @@ public class Controlador implements ActionListener
 				this.ventanaLocalidad = new VentanaLocalidad(this);
 			}
 			
+			
 			else if(e.getSource() == this.ventanaPersona.getBtnAgregarPersona())
 			{
-				LocalidadDTO nuevaLocalidad = (LocalidadDTO) ventanaPersona.getTxtLocalidad().getSelectedItem();
-				nuevaLocalidad = agenda.buscarLocalidad((LocalidadDTO) ventanaPersona.getTxtLocalidad().getSelectedItem());
-				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(), ventanaPersona.getTxtCalle().getText(), ventanaPersona.getTxtAltura().getText(), ventanaPersona.getTxtPiso().getText(), nuevaLocalidad , ventanaPersona.getTxtMail().getText(), Integer.parseInt(ventanaPersona.getTxtContacto().getText()));
+				LocalidadDTO buscadaLocalidad = new LocalidadDTO(0,(String)ventanaPersona.getTxtLocalidad().getSelectedItem(),null);
+				buscadaLocalidad = agenda.buscarLocalidad(buscadaLocalidad);
+				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(), ventanaPersona.getTxtCalle().getText(), ventanaPersona.getTxtAltura().getText(), ventanaPersona.getTxtPiso().getText(), buscadaLocalidad , ventanaPersona.getTxtMail().getText(), Integer.parseInt(ventanaPersona.getTxtContacto().getText()));
 				this.agenda.agregarPersona(nuevaPersona);
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
@@ -129,6 +140,17 @@ public class Controlador implements ActionListener
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
 			}
+			
+			else if(e.getSource() == this.ventanaLocalidad.getBtnAgregarLocalidad())
+			{
+
+				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, ventanaLocalidad.getTxtNombre().getText(),ventanaLocalidad.getTxtCodPostal().getText());
+				this.agenda.agregarLocalidad(nuevaLocalidad);
+				this.localidadesElegibles();
+				this.llenarTabla();
+				this.ventanaLocalidad.dispose();
+			}
+			
 		}
 
 }
