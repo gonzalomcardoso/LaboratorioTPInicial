@@ -6,9 +6,11 @@ import java.util.List;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.VentanaContacto;
 import presentacion.vista.VentanaLocalidad;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
+import dto.ContactoDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 
@@ -17,10 +19,13 @@ public class Controlador implements ActionListener
 		private Vista vista;
 		private List<PersonaDTO> personas_en_tabla;
 		private List<LocalidadDTO> localidades_en_tabla;
+		private List<ContactoDTO> contactos_en_tabla;
 		private PersonaDTO persona_a_editar;
 		private VentanaPersona ventanaPersona; 
 		private VentanaLocalidad ventanaLocalidad; 
 		private Agenda agenda;
+		private VentanaContacto ventanaContacto;
+		
 		
 		public Controlador(Vista vista, Agenda agenda)
 		{
@@ -67,9 +72,11 @@ public class Controlador implements ActionListener
 						this.personas_en_tabla.get(i).getCalle(),
 						this.personas_en_tabla.get(i).getAltura(),
 						this.personas_en_tabla.get(i).getPiso(),
-						this.personas_en_tabla.get(i).getLocalidad().getNombre(),
+						this.personas_en_tabla.get(i).getNombreLocalidad(),
 						this.personas_en_tabla.get(i).getMail(),
-						this.personas_en_tabla.get(i).getContacto(),
+						this.personas_en_tabla.get(i).getNombreContacto(),
+						this.personas_en_tabla.get(i).getfNacimiento()
+						
 						
 						};
 				this.vista.getModelPersonas().addRow(fila);
@@ -91,7 +98,9 @@ public class Controlador implements ActionListener
 				
 				this.persona_a_editar = this.personas_en_tabla.get(fila_seleccionada);
 				
-				this.persona_a_editar.setLocalidad(this.personas_en_tabla.get(fila_seleccionada).getLocalidad());
+				this.persona_a_editar.setLocalidad(agenda.buscarLocalidad(this.personas_en_tabla.get(fila_seleccionada).getNombreLocalidad()));
+				
+				this.persona_a_editar.setContact(agenda.buscarContacto(this.personas_en_tabla.get(fila_seleccionada).getNombreContacto()));
 				
 				this.ventanaPersona = new VentanaPersona(this);
 				
@@ -120,12 +129,16 @@ public class Controlador implements ActionListener
 				this.ventanaLocalidad = new VentanaLocalidad(this);
 			}
 			
+			else if(e.getSource() == this.ventanaPersona.getBtnAgregarContact())
+			{
+				this.ventanaContacto = new VentanaContacto(this);
+			}
 			
 			else if(e.getSource() == this.ventanaPersona.getBtnAgregarPersona())
 			{
-				LocalidadDTO buscadaLocalidad = new LocalidadDTO(0,(String)ventanaPersona.getTxtLocalidad().getSelectedItem(),null);
-				buscadaLocalidad = agenda.buscarLocalidad(buscadaLocalidad);
-				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(), ventanaPersona.getTxtCalle().getText(), ventanaPersona.getTxtAltura().getText(), ventanaPersona.getTxtPiso().getText(), buscadaLocalidad , ventanaPersona.getTxtMail().getText(), Integer.parseInt(ventanaPersona.getTxtContacto().getText()));
+				LocalidadDTO buscadaLocalidad = agenda.buscarLocalidad((String)ventanaPersona.getTxtLocalidad().getSelectedItem());
+				ContactoDTO buscadoContacto = agenda.buscarContacto(ventanaPersona.getTxtLocalidad().getSelectedItem());
+				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(), ventanaPersona.getTxtCalle().getText(), ventanaPersona.getTxtAltura().getText(), ventanaPersona.getTxtPiso().getText(), buscadaLocalidad , ventanaPersona.getTxtMail().getText(), buscadoContacto, ventanaPersona.getTxtFNac().getText());
 				this.agenda.agregarPersona(nuevaPersona);
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
@@ -136,6 +149,13 @@ public class Controlador implements ActionListener
 				
 				this.persona_a_editar.setNombre(this.ventanaPersona.getTxtNombre().getText());
 				this.persona_a_editar.setTelefono(this.ventanaPersona.getTxtTelefono().getText());
+				this.persona_a_editar.setCalle(this.ventanaPersona.getTxtCalle().getText());
+				this.persona_a_editar.setAltura(this.ventanaPersona.getTxtAltura().getText());
+				this.persona_a_editar.setPiso(this.ventanaPersona.getTxtPiso().getText());
+				this.persona_a_editar.setLocalidad(agenda.buscarLocalidad((String)this.ventanaPersona.getTxtLocalidad().getSelectedItem()));
+				this.persona_a_editar.setMail(this.ventanaPersona.getTxtTelefono().getText());
+				this.persona_a_editar.setContact(agenda.buscarContacto(this.ventanaPersona.getTxtLocalidad().getSelectedItem()));
+				this.persona_a_editar.setfNacimiento(this.ventanaPersona.getTxtTelefono().getText());
 				this.agenda.editarPersona(this.persona_a_editar);
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
@@ -151,6 +171,21 @@ public class Controlador implements ActionListener
 				this.ventanaLocalidad.dispose();
 			}
 			
+			else if(e.getSource() == this.ventanaContacto.getBtnAgregarContacto())
+			{
+
+				ContactoDTO nuevoContacto = new ContactoDTO(0,ventanaContacto.getTxtNombre().getText());
+				this.agenda.agregarContacto(nuevoContacto);
+				this.contactosElegibles();
+				this.llenarTabla();
+				this.ventanaLocalidad.dispose();
+			}
+			
+		}
+
+		public List<ContactoDTO> contactosElegibles() {
+			this.contactos_en_tabla = this.agenda.obtenerContactos();
+			return this.contactos_en_tabla;
 		}
 
 }

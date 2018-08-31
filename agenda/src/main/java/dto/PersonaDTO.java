@@ -5,16 +5,17 @@ public class PersonaDTO
 	private int idPersona;
 	private String nombre;
 	private String telefono;
+	private String fNacimiento;
 	private String calle;
 	private String altura;
 	private String piso;
 	private LocalidadDTO localidad;
 	private String mail;
-	private Integer contacto_id;
+	private ContactoDTO contact;
 	
 	public PersonaDTO(int idPersona, String nombre, String telefono,
 			String calle, String altura, String piso, LocalidadDTO localidad,
-			String mail, int contacto_id) {
+			String mail, ContactoDTO contact, String fNacimiento) {
 		super();
 		this.idPersona = idPersona;
 		this.nombre = nombre;
@@ -24,7 +25,8 @@ public class PersonaDTO
 		this.piso = piso;
 		this.localidad = localidad;
 		this.mail = mail;
-		this.contacto_id = contacto_id;
+		this.contact = contact;
+		this.fNacimiento = fNacimiento;
 	}
 
 	public int getIdPersona() 
@@ -88,6 +90,14 @@ public class PersonaDTO
 	public void setLocalidad(LocalidadDTO localidad) {
 		this.localidad = localidad;
 	}
+	
+	public void setNombreLocalidad(String nombreLocalidad) {
+		localidad.setNombre(nombreLocalidad);
+	}
+	
+	public String getNombreLocalidad() {
+		return localidad.getNombre();
+	}
 
 	public String getMail() {
 		return mail;
@@ -97,9 +107,24 @@ public class PersonaDTO
 		this.mail = mail;
 	}
 
-	public Integer getContacto() {
-		// TODO Auto-generated method stub
-		return contacto_id;
+	public String getfNacimiento() {
+		return fNacimiento;
+	}
+
+	public void setfNacimiento(String fNacimiento) {
+		this.fNacimiento = fNacimiento;
+	}
+
+	public ContactoDTO getContact() {
+		return contact;
+	}
+
+	public void setContact(ContactoDTO contact) {
+		this.contact = contact;
+	}
+
+	public String getNombreContacto() {
+		return this.contact.getTipo();
 	}
 
 	

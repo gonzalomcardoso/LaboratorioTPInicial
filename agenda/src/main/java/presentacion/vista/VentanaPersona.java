@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dto.ContactoDTO;
 import dto.LocalidadDTO;
 import presentacion.controlador.Controlador;
 
@@ -26,11 +27,14 @@ public class VentanaPersona extends JFrame
 	private JTextField txtPiso;
 	private JComboBox txtLocalidad;
 	private JTextField txtMail;
-	private JTextField txtContacto;
+	private JComboBox txtContacto;
+	private JTextField txtFNac;
 	private JButton btnAgregarPersona;
 	private JButton btnEditarPersona;
 	private JButton btnAgregarLocalidad;
+	private JButton btnAgregarContact;
 	private Controlador controlador;
+	
 
 	
 	public VentanaPersona(Controlador controlador) 
@@ -82,6 +86,10 @@ public class VentanaPersona extends JFrame
 		lblContacto.setBounds(10, 298, 113, 14);
 		panel.add(lblContacto);
 		
+		JLabel lblFNacimiento = new JLabel("Fecha de Nacimiento");
+		lblFNacimiento.setBounds(10, 339, 113, 14);
+		panel.add(lblFNacimiento);
+		
 		txtNombre = new JTextField();
 		txtTelefono = new JTextField();
 		txtCalle = new JTextField();
@@ -92,7 +100,11 @@ public class VentanaPersona extends JFrame
 		    txtLocalidad.addItem(i.next().getNombre());
 		}
 		txtMail = new JTextField();
-		txtContacto = new JTextField();
+		txtContacto = new JComboBox();
+		for (Iterator<ContactoDTO> i = controlador.contactosElegibles().iterator(); i.hasNext();) { 
+			txtContacto.addItem(i.next().getTipo());
+		}
+		txtFNac = new JTextField();
 		
 		
 		
@@ -102,9 +114,10 @@ public class VentanaPersona extends JFrame
 			txtCalle = new JTextField(controlador.personaEditable().getCalle());
 			txtAltura = new JTextField(controlador.personaEditable().getAltura());
 			txtPiso = new JTextField(controlador.personaEditable().getPiso());
-			txtLocalidad.setSelectedItem(controlador.personaEditable().getLocalidad().getNombre());
+			txtLocalidad.setSelectedItem(controlador.personaEditable().getNombreLocalidad());
 			txtMail = new JTextField(controlador.personaEditable().getMail());
-			txtContacto = new JTextField(controlador.personaEditable().getContacto());
+			txtContacto.setSelectedItem(controlador.personaEditable().getNombreContacto());
+			txtFNac = new JTextField(controlador.personaEditable().getfNacimiento());
 			
 			
 			btnEditarPersona = new JButton("Editar Persona");
@@ -164,10 +177,19 @@ public class VentanaPersona extends JFrame
 		
 		txtContacto.setBounds(133, 298, 164, 20);
 		panel.add(txtContacto);
-		txtContacto.setColumns(10);
 		
+		btnAgregarContact = new JButton("Agregar Contact");
+		btnAgregarContact.addActionListener(this.controlador);
+		btnAgregarContact.setBounds(369, 298, 164, 20);
+		panel.add(btnAgregarContact);
+
+		txtFNac.setBounds(133, 339, 164, 20);
+		panel.add(txtFNac);
+		txtFNac.setColumns(10);
 	}
 	
+	
+
 	public JTextField getTxtNombre() 
 	{
 		return txtNombre;
@@ -198,10 +220,13 @@ public class VentanaPersona extends JFrame
 		return txtMail;
 	}
 
-	public JTextField getTxtContacto() {
+	public JComboBox getTxtContacto() {
 		return txtContacto;
 	}
-
+	
+	public JTextField getTxtFNac() {
+		return txtFNac;
+	}
 
 	public JButton getBtnAgregarPersona() 
 	{
@@ -217,6 +242,13 @@ public class VentanaPersona extends JFrame
 	{
 		return btnAgregarLocalidad;
 	}
+	
+	public JButton getBtnAgregarContact() 
+	{
+		return btnAgregarContact;
+	}
+
+	
 	
 }
 

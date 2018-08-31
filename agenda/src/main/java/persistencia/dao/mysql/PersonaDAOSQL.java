@@ -8,15 +8,16 @@ import java.util.List;
 
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.PersonaDAO;
+import dto.ContactoDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono, calle, altura, piso, Localidad, mail, TipoContacto) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono, calle, altura, piso, Localidad, mail, TipoContacto, FNacimiento) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, calle = ?, altura = ?, piso = ?, Localidad = ?, mail = ?, idContacto = ? WHERE idPersona = ?";
+	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, calle = ?, altura = ?, piso = ?, Localidad = ?, mail = ?, TipoContacto = ?, FNacimiento = ? WHERE idPersona = ?";
 		
 	public boolean insert(PersonaDTO persona)
 	{
@@ -31,9 +32,10 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(4, persona.getCalle());
 			statement.setString(5, persona.getAltura());
 			statement.setString(6, persona.getPiso());
-			statement.setInt(7, persona.getLocalidad().getIdLocalidad());
+			statement.setString(7, persona.getNombreLocalidad());
 			statement.setString(8, persona.getMail());
-			statement.setInt(9, persona.getContacto());
+			statement.setString(9, persona.getNombreContacto());
+			statement.setString(10, persona.getfNacimiento());
 			if(statement.executeUpdate() > 0) //Si se ejecut� devuelvo true
 				return true;
 		} 
@@ -78,7 +80,7 @@ public class PersonaDAOSQL implements PersonaDAO
 			
 			while(resultSet.next())
 			{
-				personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"), resultSet.getString("Telefono"),  resultSet.getString("Calle"),  resultSet.getString("Altura"),  resultSet.getString("Piso"), new LocalidadDTO(0,resultSet.getString("Localidad"),""),  resultSet.getString("Mail"),  resultSet.getInt("TipoContacto")));
+				personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"), resultSet.getString("Telefono"),  resultSet.getString("Calle"),  resultSet.getString("Altura"),  resultSet.getString("Piso"), new LocalidadDTO(0,resultSet.getString("Localidad"),""),  resultSet.getString("Mail"), new ContactoDTO(0,resultSet.getString("TipoContacto")), resultSet.getString("FNacimiento")));
 			}
 		} 
 		catch (SQLException e) 
@@ -100,10 +102,11 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(3, persona_a_editar.getCalle());
 			statement.setString(4, persona_a_editar.getAltura());
 			statement.setString(5, persona_a_editar.getPiso());
-			statement.setInt(6, persona_a_editar.getLocalidad().getIdLocalidad());
+			statement.setString(6, persona_a_editar.getNombreLocalidad());
 			statement.setString(7, persona_a_editar.getMail());
-			statement.setInt(8, persona_a_editar.getContacto());
-			statement.setInt(9, persona_a_editar.getIdPersona());
+			statement.setString(8, persona_a_editar.getNombreContacto());
+			statement.setString(9, persona_a_editar.getfNacimiento());
+			statement.setInt(10, persona_a_editar.getIdPersona());
 			if(statement.executeUpdate() > 0) //Si se ejecut� devuelvo true
 				return true;
 		} 
