@@ -11,7 +11,7 @@ CREATE TABLE `personas`
   `Localidad` varchar(20) NOT NULL,
   `Mail` varchar(45) NOT NULL,
   `TipoContacto` varchar(20) NOT NULL,
-  `FNacimiento` DATE NOT NULL,
+  `FNacimiento` varchar(20) NOT NULL,
   PRIMARY KEY (`idPersona`)
  );
 USE agenda;
@@ -21,12 +21,4 @@ CREATE TABLE `localidades`
   `Nombre` varchar(45) NOT NULL,
   `CodigoPostal` varchar(20) NOT NULL,
   PRIMARY KEY (`idLocalidad`)
-);
-
-USE agenda;
-CREATE TABLE `contactos`
-(
-  `idContacto` int(11) NOT NULL AUTO_INCREMENT,
-  `Tipo` varchar(45) NOT NULL,
-  PRIMARY KEY (`idContacto`)
 );
