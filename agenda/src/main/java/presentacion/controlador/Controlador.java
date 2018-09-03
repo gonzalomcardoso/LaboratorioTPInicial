@@ -2,6 +2,7 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.List;
 
 import modelo.Agenda;
@@ -138,7 +139,7 @@ public class Controlador implements ActionListener
 			{
 				LocalidadDTO buscadaLocalidad = agenda.buscarLocalidad((String)ventanaPersona.getTxtLocalidad().getSelectedItem());
 				ContactoDTO buscadoContacto = agenda.buscarContacto(ventanaPersona.getTxtLocalidad().getSelectedItem());
-				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(), ventanaPersona.getTxtCalle().getText(), ventanaPersona.getTxtAltura().getText(), ventanaPersona.getTxtPiso().getText(), buscadaLocalidad , ventanaPersona.getTxtMail().getText(), buscadoContacto, ventanaPersona.getTxtFNac().getDate());
+				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(), ventanaPersona.getTxtCalle().getText(), ventanaPersona.getTxtAltura().getText(), ventanaPersona.getTxtPiso().getText(), buscadaLocalidad , ventanaPersona.getTxtMail().getText(), buscadoContacto, (Date) ventanaPersona.getTxtFNac().getDate());
 				this.agenda.agregarPersona(nuevaPersona);
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
@@ -155,7 +156,7 @@ public class Controlador implements ActionListener
 				this.persona_a_editar.setLocalidad(agenda.buscarLocalidad((String)this.ventanaPersona.getTxtLocalidad().getSelectedItem()));
 				this.persona_a_editar.setMail(this.ventanaPersona.getTxtTelefono().getText());
 				this.persona_a_editar.setContact(agenda.buscarContacto(this.ventanaPersona.getTxtLocalidad().getSelectedItem()));
-				this.persona_a_editar.setfNacimiento(this.ventanaPersona.getTxtFNac().getDate());
+				this.persona_a_editar.setfNacimiento((Date) this.ventanaPersona.getTxtFNac().getDate());
 				this.agenda.editarPersona(this.persona_a_editar);
 				this.llenarTabla();
 				this.ventanaPersona.dispose();
