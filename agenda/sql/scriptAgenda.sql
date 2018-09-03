@@ -22,3 +22,10 @@ CREATE TABLE `localidades`
   `CodigoPostal` varchar(20) NOT NULL,
   PRIMARY KEY (`idLocalidad`)
 );
+USE agenda;
+CREATE TABLE `contactos`
+(
+  `idContacto` int(11) NOT NULL AUTO_INCREMENT,
+  `Tipo` varchar(45) NOT NULL,
+  PRIMARY KEY (`idContacto`)
+);
