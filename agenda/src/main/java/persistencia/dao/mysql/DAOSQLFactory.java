@@ -23,7 +23,6 @@ public class DAOSQLFactory implements DAOAbstractFactory
 				return new LocalidadDAOSQL();
 	}
 
-	@Override
 	public ContactoDAO createContactoDAO() {
 				return new ContactoDAOSQL();
 	}

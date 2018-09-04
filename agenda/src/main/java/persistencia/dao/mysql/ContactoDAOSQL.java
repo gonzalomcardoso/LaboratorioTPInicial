@@ -5,14 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.ContactoDAO;
 import dto.ContactoDTO;
 
 public class ContactoDAOSQL implements ContactoDAO {
 	
-	private static final String insert = "INSERT INTO contactos (idContacto, tipo) VALUES(?, ?, ?)";
+	private static final String insert = "INSERT INTO contactos (idContacto, Tipo) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM contactos WHERE idContacto = ?";
 	private static final String readall = "SELECT * FROM contactos";
 	private static final String update = "UPDATE contactos SET tipo = ? WHERE idcontacto = ?";

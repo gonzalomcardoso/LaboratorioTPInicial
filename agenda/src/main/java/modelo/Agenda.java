@@ -73,8 +73,8 @@ public class Agenda
 		return this.contacto.readAll();
 	}
 
-	public ContactoDTO buscarContacto(Object nombreContacto) {
-		ContactoDTO buscadoContacto = new ContactoDTO(0, (String) nombreContacto);
+	public ContactoDTO buscarContacto(String nombreContacto) {
+		ContactoDTO buscadoContacto = new ContactoDTO(0, nombreContacto);
 		return this.contacto.search(buscadoContacto).get(0);
 	}
 

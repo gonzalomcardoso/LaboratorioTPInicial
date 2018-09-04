@@ -1,9 +1,8 @@
 package presentacion.vista;
 
 
+import java.sql.Date;
 import java.util.Iterator;
-
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,13 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDayChooser;
-import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JYearChooser;
-
 import dto.ContactoDTO;
 import dto.LocalidadDTO;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import presentacion.controlador.Controlador;
 
 public class VentanaPersona extends JFrame 
@@ -32,7 +29,7 @@ public class VentanaPersona extends JFrame
 	private JComboBox txtLocalidad;
 	private JTextField txtMail;
 	private JComboBox txtContacto;
-	private JCalendar txtFNac;
+	private JDatePickerImpl txtFNac;
 	private JButton btnAgregarPersona;
 	private JButton btnEditarPersona;
 	private JButton btnAgregarLocalidad;
@@ -108,7 +105,10 @@ public class VentanaPersona extends JFrame
 		for (Iterator<ContactoDTO> i = controlador.contactosElegibles().iterator(); i.hasNext();) { 
 			txtContacto.addItem(i.next().getTipo());
 		}
-		txtFNac = new JCalendar();
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+		txtFNac = new JDatePickerImpl(datePanel);
+		
 		
 		
 		
@@ -121,12 +121,12 @@ public class VentanaPersona extends JFrame
 			txtLocalidad.setSelectedItem(controlador.personaEditable().getNombreLocalidad());
 			txtMail = new JTextField(controlador.personaEditable().getMail());
 			txtContacto.setSelectedItem(controlador.personaEditable().getNombreContacto());
-			txtFNac.setDate(controlador.personaEditable().getfNacimiento());
+			model.setValue(controlador.personaEditable().getfNacimiento());
 			
 			
 			btnEditarPersona = new JButton("Editar Persona");
 			btnEditarPersona.addActionListener(this.controlador);
-			btnEditarPersona.setBounds(208, 440, 89, 23);
+			btnEditarPersona.setBounds(208, 445, 89, 23);
 			panel.add(btnEditarPersona);
 			
 			this.setVisible(true);
@@ -136,7 +136,7 @@ public class VentanaPersona extends JFrame
 			
 			btnAgregarPersona = new JButton("Agregar Persona");
 			btnAgregarPersona.addActionListener(this.controlador);
-			btnAgregarPersona.setBounds(208, 440, 164, 20);
+			btnAgregarPersona.setBounds(208, 445, 164, 20);
 			panel.add(btnAgregarPersona);
 			
 			
@@ -186,58 +186,52 @@ public class VentanaPersona extends JFrame
 		btnAgregarContact.addActionListener(this.controlador);
 		btnAgregarContact.setBounds(369, 298, 164, 20);
 		panel.add(btnAgregarContact);
-
-		JDayChooser dayChooser = new JDayChooser();
-		dayChooser.setBounds(133, 359, 300, 20);
-		JMonthChooser monthChooser = new JMonthChooser();
-		monthChooser.setBounds(133, 339, 164, 20);
-		JYearChooser yearChooser = new JYearChooser();
-		yearChooser.setBounds(369, 339, 164, 20);
 		
 		
-		txtFNac.setBounds(133, 339, 300, 100);
+		txtFNac.setBounds(133, 339, 250, 30);
 		panel.add(txtFNac);
-		//txtFNac.setColumns(10);
 	}
 	
 	
 
-	public JTextField getTxtNombre() 
+	public String getTxtNombre() 
 	{
-		return txtNombre;
+		return txtNombre.getText();
 	}
 
-	public JTextField getTxtTelefono() 
+	public String getTxtTelefono() 
 	{
-		return txtTelefono;
+		return txtTelefono.getText();
 	}
 
-	public JTextField getTxtCalle() {
-		return txtCalle;
+	public String getTxtCalle() {
+		return txtCalle.getText();
 	}
 
-	public JTextField getTxtAltura() {
-		return txtAltura;
+	public String getTxtAltura() {
+		return txtAltura.getText();
 	}
 
-	public JTextField getTxtPiso() {
-		return txtPiso;
+	public String getTxtPiso() {
+		return txtPiso.getText();
 	}
 
-	public JComboBox getTxtLocalidad() {
-		return txtLocalidad;
+	public String getTxtLocalidad() {
+		return (String)txtLocalidad.getSelectedItem();
 	}
 
-	public JTextField getTxtMail() {
-		return txtMail;
+	public String getTxtMail() {
+		return txtMail.getText();
 	}
 
-	public JComboBox getTxtContacto() {
-		return txtContacto;
+	public String getTxtContacto() {
+		return (String)txtContacto.getSelectedItem();
 	}
 	
-	public JCalendar getTxtFNac() {
-		return txtFNac;
+	public  Date getTxtFNac() {
+		java.util.Date uDate = (java.util.Date) txtFNac.getModel().getValue();
+		java.sql.Date sDate =  new java.sql.Date(uDate.getTime());
+		return sDate;
 	}
 
 	public JButton getBtnAgregarPersona() 
