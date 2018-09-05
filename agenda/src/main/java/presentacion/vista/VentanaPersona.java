@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import dto.ContactoDTO;
 import dto.LocalidadDTO;
+import net.sourceforge.jdatepicker.DateModel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -228,11 +229,18 @@ public class VentanaPersona extends JFrame
 		return (String)txtContacto.getSelectedItem();
 	}
 	
+	public Object getButtonTxtFNac() {
+		return txtFNac.getModel().getValue();
+	}
+	
 	public  Date getTxtFNac() {
-		java.util.Date uDate = (java.util.Date) txtFNac.getModel().getValue();
+		java.util.Date uDate = new java.util.Date();
+		uDate = (java.util.Date) txtFNac.getModel().getValue();
 		java.sql.Date sDate =  new java.sql.Date(uDate.getTime());
 		return sDate;
 	}
+	
+	
 
 	public JButton getBtnAgregarPersona() 
 	{

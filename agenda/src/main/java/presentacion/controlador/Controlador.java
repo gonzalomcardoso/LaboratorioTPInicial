@@ -2,9 +2,12 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
-
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaContacto;
@@ -45,6 +48,7 @@ public class Controlador implements ActionListener
 		{
 			this.llenarTabla();
 			this.vista.show();
+			
 		}
 		
 		public PersonaDTO personaEditable()
@@ -71,18 +75,149 @@ public class Controlador implements ActionListener
 				Object[] fila = {
 						this.personas_en_tabla.get(i).getNombre(), 
 						this.personas_en_tabla.get(i).getTelefono(),
+						this.personas_en_tabla.get(i).getfNacimiento(),
 						this.personas_en_tabla.get(i).getCalle(),
 						this.personas_en_tabla.get(i).getAltura(),
 						this.personas_en_tabla.get(i).getPiso(),
 						this.personas_en_tabla.get(i).getNombreLocalidad(),
 						this.personas_en_tabla.get(i).getMail(),
-						this.personas_en_tabla.get(i).getNombreContacto(),
-						this.personas_en_tabla.get(i).getfNacimiento()
+						this.personas_en_tabla.get(i).getNombreContacto()
+						
 						
 						
 						};
 				this.vista.getModelPersonas().addRow(fila);
 			}			
+		}
+		
+		public List<ContactoDTO> contactosElegibles() {
+			this.contactos_en_tabla = this.agenda.obtenerContactos();
+			return this.contactos_en_tabla;
+		}
+		
+		public boolean validRequiredField(VentanaPersona campoPersona) {
+			
+			if(this.isEmpty(campoPersona.getTxtNombre())) {
+				this.ventanaWarning("Nombre de Persona es vacio", this.ventanaPersona);
+				
+				return false;
+			}
+				
+			if(this.isEmpty(campoPersona.getTxtTelefono())) {
+				this.ventanaWarning("Numero de Telefono es vacio", this.ventanaPersona);
+				return false;
+			}
+				
+			if( campoPersona.getButtonTxtFNac() == null) {
+				this.ventanaWarning("No hay Fecha de Nacimiento ", this.ventanaPersona);
+				return false;
+			} else if( this.isEmpty(campoPersona.getTxtFNac().toString()) ) {
+				
+				this.ventanaWarning("Fecha de Nacimiento es vacio", this.ventanaPersona);
+				return false;
+			}
+				
+			if(this.isEmpty(campoPersona.getTxtCalle()) || this.isEmpty(campoPersona.getTxtAltura())) {
+				
+				if((this.isEmpty(campoPersona.getTxtCalle()) && !this.isEmpty(campoPersona.getTxtAltura())) || 
+						(!this.isEmpty(campoPersona.getTxtCalle()) && this.isEmpty(campoPersona.getTxtAltura()))){
+					
+					if(this.isEmpty(campoPersona.getTxtCalle())) {
+						this.ventanaWarning("La calle es vacia", this.ventanaPersona);
+						return false;
+					}
+					
+					
+					if(this.isEmpty(campoPersona.getTxtAltura())) {
+						this.ventanaWarning("La altura es vacia", this.ventanaPersona);
+						return false;
+					}
+					
+				}
+					
+			}
+					
+			if(this.isEmpty(campoPersona.getTxtLocalidad())) {
+				this.ventanaWarning("La localidad es vacio", this.ventanaPersona);
+				return false;
+			}
+				
+			if(this.isEmpty(campoPersona.getTxtMail())) {
+				this.ventanaWarning("El mail es vacio", this.ventanaPersona);
+				return false;
+			}
+				
+			if(this.isEmpty(campoPersona.getTxtContacto())) {
+				this.ventanaWarning("El contacto es vacio", this.ventanaPersona);
+				return false;
+			}
+				
+			
+			return true;
+			
+			
+			
+		}
+		
+		private boolean isEmpty(String campo) {
+			
+			return "".equals(campo) || esUnaArrayVacia(campo);			
+//			String s = campo;  
+//		    char[] cArr = s.toCharArray();  
+//		    ArrayList<Character> chars = new ArrayList<Character>();  
+//		    for (Character c : cArr)  
+//		        if (Character.isDigit(c))  
+//		            chars.add(c);  
+//		    cArr = new char[chars.size()];  
+//		    for (int i = 0;i<chars.size();i++)  
+//		        cArr[i] = chars.get(i);  
+//		    s = new String(cArr); 
+//		    if (s.equals(""))  
+//		    {
+//		       return true;  
+//		    }  
+//			
+//			return false;
+		}
+		
+		private Boolean esUnaArrayVacia(String campo) {
+			
+			// recorro la array
+			String stringEmpty = " ";
+			Boolean isEmpty = true;
+			
+			String s = campo;
+			
+			char[] cArray = s.toCharArray();
+			
+			for (char c : cArray) {
+				// condicion si encuentro un valor distinto de " "
+				if (!stringEmpty.equals(c)) {
+					// es false 
+					isEmpty = false;
+					break;
+				}
+			}  
+			
+			return isEmpty;
+		}
+		
+		private void ventanaWarning(String message, JFrame ventana) {
+			
+			ventana.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			JOptionPane.showOptionDialog(
+		             null, message, 
+		             "Aceptar", JOptionPane.WARNING_MESSAGE,
+		             JOptionPane.QUESTION_MESSAGE, null, null, null);
+			/*ventana.addWindowListener(new WindowAdapter() 
+			{
+				@Override
+			    public void windowActivated(WindowEvent e) {
+			        
+			    }
+			});
+			ventana.setVisible(true);*/
+			
 		}
 		
 		public void actionPerformed(ActionEvent e) 
@@ -140,12 +275,16 @@ public class Controlador implements ActionListener
 			{
 				LocalidadDTO buscadaLocalidad = agenda.buscarLocalidad(ventanaPersona.getTxtLocalidad());
 				ContactoDTO buscadoContacto = agenda.buscarContacto(ventanaPersona.getTxtContacto());
-				PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre(), ventanaPersona.getTxtTelefono(), ventanaPersona.getTxtCalle(), ventanaPersona.getTxtAltura(), ventanaPersona.getTxtPiso(), buscadaLocalidad , ventanaPersona.getTxtMail(), buscadoContacto, ventanaPersona.getTxtFNac());
-				this.agenda.agregarPersona(nuevaPersona);
-				this.llenarTabla();
-				this.localidadesElegibles();
-				this.contactosElegibles();
-				this.ventanaPersona.dispose();
+				if(this.validRequiredField(this.ventanaPersona)) {
+					PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre(), ventanaPersona.getTxtTelefono(), ventanaPersona.getTxtCalle(), ventanaPersona.getTxtAltura(), ventanaPersona.getTxtPiso(), buscadaLocalidad , ventanaPersona.getTxtMail(), buscadoContacto, ventanaPersona.getTxtFNac());
+					this.agenda.agregarPersona(nuevaPersona);
+					this.llenarTabla();
+					this.localidadesElegibles();
+					this.contactosElegibles();
+					this.ventanaPersona.dispose();
+					
+				}
+				
 			}
 
 			else if(e.getSource() == this.ventanaPersona.getBtnEditarPersona())
@@ -160,11 +299,14 @@ public class Controlador implements ActionListener
 				this.persona_a_editar.setMail(this.ventanaPersona.getTxtTelefono());
 				this.persona_a_editar.setContact(agenda.buscarContacto( this.ventanaPersona.getTxtContacto()));
 				this.persona_a_editar.setfNacimiento(this.ventanaPersona.getTxtFNac());
-				this.agenda.editarPersona(this.persona_a_editar);
-				this.llenarTabla();
-				this.localidadesElegibles();
-				this.contactosElegibles();
-				this.ventanaPersona.dispose();
+				if(this.validRequiredField(this.ventanaPersona)) {
+					this.agenda.editarPersona(this.persona_a_editar);
+					this.llenarTabla();
+					this.localidadesElegibles();
+					this.contactosElegibles();
+					this.ventanaPersona.dispose();
+				}
+				
 			}
 			
 			
@@ -191,9 +333,6 @@ public class Controlador implements ActionListener
 			
 		}
 
-		public List<ContactoDTO> contactosElegibles() {
-			this.contactos_en_tabla = this.agenda.obtenerContactos();
-			return this.contactos_en_tabla;
-		}
+		
 
 }
