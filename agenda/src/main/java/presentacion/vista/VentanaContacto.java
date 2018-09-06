@@ -52,8 +52,8 @@ public class VentanaContacto extends JFrame
 		
 	}
 
-	public JTextField getTxtNombre() {
-		return txtNombre;
+	public String getTxtNombre() {
+		return txtNombre.getText();
 	}
 
 	public JButton getBtnAgregarContacto() {

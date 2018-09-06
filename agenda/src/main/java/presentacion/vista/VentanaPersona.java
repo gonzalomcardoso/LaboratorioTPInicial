@@ -1,6 +1,7 @@
 package presentacion.vista;
 
 
+
 import java.sql.Date;
 import java.util.Iterator;
 import javax.swing.JButton;
@@ -12,10 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import dto.ContactoDTO;
 import dto.LocalidadDTO;
-import net.sourceforge.jdatepicker.DateModel;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 import presentacion.controlador.Controlador;
 
 public class VentanaPersona extends JFrame 
@@ -27,9 +28,9 @@ public class VentanaPersona extends JFrame
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
-	private JComboBox txtLocalidad;
+	private JComboBox<String> txtLocalidad;
 	private JTextField txtMail;
-	private JComboBox txtContacto;
+	private JComboBox<String> txtContacto;
 	private JDatePickerImpl txtFNac;
 	private JButton btnAgregarPersona;
 	private JButton btnEditarPersona;
@@ -43,10 +44,10 @@ public class VentanaPersona extends JFrame
 	{
 		super();
 		this.controlador = controlador;
-		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 611, 556);
 		contentPane = new JPanel();
+		contentPane.removeAll();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -97,15 +98,10 @@ public class VentanaPersona extends JFrame
 		txtCalle = new JTextField();
 		txtAltura = new JTextField();
 		txtPiso = new JTextField();
-		txtLocalidad = new JComboBox();
-		for (Iterator<LocalidadDTO> i = controlador.localidadesElegibles().iterator(); i.hasNext();) { 
-		    txtLocalidad.addItem(i.next().getNombre());
-		}
+		txtLocalidad = new JComboBox<String>();
 		txtMail = new JTextField();
-		txtContacto = new JComboBox();
-		for (Iterator<ContactoDTO> i = controlador.contactosElegibles().iterator(); i.hasNext();) { 
-			txtContacto.addItem(i.next().getTipo());
-		}
+		txtContacto = new JComboBox<String>();
+		refresh();
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		txtFNac = new JDatePickerImpl(datePanel);
@@ -183,7 +179,7 @@ public class VentanaPersona extends JFrame
 		txtContacto.setBounds(133, 298, 164, 20);
 		panel.add(txtContacto);
 		
-		btnAgregarContact = new JButton("Agregar Contact");
+		btnAgregarContact = new JButton("Agregar Contacto");
 		btnAgregarContact.addActionListener(this.controlador);
 		btnAgregarContact.setBounds(369, 298, 164, 20);
 		panel.add(btnAgregarContact);
@@ -191,6 +187,8 @@ public class VentanaPersona extends JFrame
 		
 		txtFNac.setBounds(133, 339, 250, 30);
 		panel.add(txtFNac);
+		
+		
 	}
 	
 	
@@ -261,7 +259,21 @@ public class VentanaPersona extends JFrame
 	{
 		return btnAgregarContact;
 	}
-
+	
+	public void refresh() {
+		
+		this.txtLocalidad = new JComboBox<String>();
+		for (Iterator<LocalidadDTO> i = controlador.localidadesElegibles().iterator(); i.hasNext();) { 
+		    this.txtLocalidad.addItem(i.next().getNombre());
+		}
+		
+		
+		this.txtContacto = new JComboBox<String>();
+		for (Iterator<ContactoDTO> i = controlador.contactosElegibles().iterator(); i.hasNext();) { 
+			this.txtContacto.addItem(i.next().getTipo());
+		}
+	}
+ 
 	
 	
 }

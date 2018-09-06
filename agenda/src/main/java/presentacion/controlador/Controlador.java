@@ -2,9 +2,6 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -95,7 +92,7 @@ public class Controlador implements ActionListener
 			return this.contactos_en_tabla;
 		}
 		
-		public boolean validRequiredField(VentanaPersona campoPersona) {
+		private boolean isValidPersona(VentanaPersona campoPersona) {
 			
 			if(this.isEmpty(campoPersona.getTxtNombre())) {
 				this.ventanaWarning("Nombre de Persona es vacio", this.ventanaPersona);
@@ -159,25 +156,32 @@ public class Controlador implements ActionListener
 			
 		}
 		
+		private boolean isValidLocalidad(VentanaLocalidad campoLocalidad) {
+			if(this.isEmpty(campoLocalidad.getTxtNombre())) {
+				this.ventanaWarning("Nombre de Localidad vacio", campoLocalidad);
+				return false;
+			}
+				
+			if(this.isEmpty(campoLocalidad.getTxtCodPostal())) {
+				this.ventanaWarning("Codigo Postal de Localidad vacio", campoLocalidad);
+				return false;
+			}
+			return true;
+		}
+		
+		private boolean isValidContacto(VentanaContacto campoContacto) {
+			if(this.isEmpty(campoContacto.getTxtNombre())) {
+				this.ventanaWarning("Tipo de Contacto vacio", campoContacto);
+				return false;
+			}
+				
+			return true;
+		}
+		
 		private boolean isEmpty(String campo) {
 			
 			return "".equals(campo) || esUnaArrayVacia(campo);			
-//			String s = campo;  
-//		    char[] cArr = s.toCharArray();  
-//		    ArrayList<Character> chars = new ArrayList<Character>();  
-//		    for (Character c : cArr)  
-//		        if (Character.isDigit(c))  
-//		            chars.add(c);  
-//		    cArr = new char[chars.size()];  
-//		    for (int i = 0;i<chars.size();i++)  
-//		        cArr[i] = chars.get(i);  
-//		    s = new String(cArr); 
-//		    if (s.equals(""))  
-//		    {
-//		       return true;  
-//		    }  
-//			
-//			return false;
+
 		}
 		
 		private Boolean esUnaArrayVacia(String campo) {
@@ -204,19 +208,11 @@ public class Controlador implements ActionListener
 		
 		private void ventanaWarning(String message, JFrame ventana) {
 			
-			ventana.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			JOptionPane.showOptionDialog(
 		             null, message, 
 		             "Aceptar", JOptionPane.WARNING_MESSAGE,
 		             JOptionPane.QUESTION_MESSAGE, null, null, null);
-			/*ventana.addWindowListener(new WindowAdapter() 
-			{
-				@Override
-			    public void windowActivated(WindowEvent e) {
-			        
-			    }
-			});
-			ventana.setVisible(true);*/
+			
 			
 		}
 		
@@ -227,6 +223,7 @@ public class Controlador implements ActionListener
 			if(e.getSource() == this.vista.getBtnAgregar())
 			{
 				this.ventanaPersona = new VentanaPersona(this);
+				
 			}
 			
 			else if(e.getSource() == this.vista.getBtnEditar())
@@ -273,9 +270,10 @@ public class Controlador implements ActionListener
 			
 			else if(e.getSource() == this.ventanaPersona.getBtnAgregarPersona())
 			{
+				
 				LocalidadDTO buscadaLocalidad = agenda.buscarLocalidad(ventanaPersona.getTxtLocalidad());
 				ContactoDTO buscadoContacto = agenda.buscarContacto(ventanaPersona.getTxtContacto());
-				if(this.validRequiredField(this.ventanaPersona)) {
+				if(this.isValidPersona(this.ventanaPersona)) {
 					PersonaDTO nuevaPersona = new PersonaDTO(0,this.ventanaPersona.getTxtNombre(), ventanaPersona.getTxtTelefono(), ventanaPersona.getTxtCalle(), ventanaPersona.getTxtAltura(), ventanaPersona.getTxtPiso(), buscadaLocalidad , ventanaPersona.getTxtMail(), buscadoContacto, ventanaPersona.getTxtFNac());
 					this.agenda.agregarPersona(nuevaPersona);
 					this.llenarTabla();
@@ -299,7 +297,7 @@ public class Controlador implements ActionListener
 				this.persona_a_editar.setMail(this.ventanaPersona.getTxtTelefono());
 				this.persona_a_editar.setContact(agenda.buscarContacto( this.ventanaPersona.getTxtContacto()));
 				this.persona_a_editar.setfNacimiento(this.ventanaPersona.getTxtFNac());
-				if(this.validRequiredField(this.ventanaPersona)) {
+				if(this.isValidPersona(this.ventanaPersona)) {
 					this.agenda.editarPersona(this.persona_a_editar);
 					this.llenarTabla();
 					this.localidadesElegibles();
@@ -309,30 +307,39 @@ public class Controlador implements ActionListener
 				
 			}
 			
-			
-			
-			else if(e.getSource() == this.ventanaContacto.getBtnAgregarContacto())
+			else if(this.ventanaLocalidad!= null && e.getSource() == this.ventanaLocalidad.getBtnAgregarLocalidad())
 			{
+				if(this.isValidLocalidad(ventanaLocalidad)) {
+					LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, ventanaLocalidad.getTxtNombre(),ventanaLocalidad.getTxtCodPostal());
+					this.agenda.agregarLocalidad(nuevaLocalidad);
+					this.ventanaPersona.refresh();
+					this.ventanaLocalidad.dispose();
+				}
 
-				ContactoDTO nuevoContacto = new ContactoDTO(0,ventanaContacto.getTxtNombre().getText());
-				this.agenda.agregarContacto(nuevoContacto);
-				this.contactosElegibles();
-				this.llenarTabla();
-				this.ventanaContacto.dispose();
+				
+			}
+
+			
+						
+			else if(this.ventanaContacto!= null && e.getSource() == this.ventanaContacto.getBtnAgregarContacto())
+			{
+				if(this.isValidContacto(ventanaContacto)) {
+					ContactoDTO nuevoContacto = new ContactoDTO(0,ventanaContacto.getTxtNombre());
+					this.agenda.agregarContacto(nuevoContacto);
+					this.ventanaPersona.refresh();
+					this.ventanaContacto.dispose();
+				}
+
+				
 			}
 			
-			else if(e.getSource() == this.ventanaLocalidad.getBtnAgregarLocalidad())
-			{
-
-				LocalidadDTO nuevaLocalidad = new LocalidadDTO(0, ventanaLocalidad.getTxtNombre().getText(),ventanaLocalidad.getTxtCodPostal().getText());
-				this.agenda.agregarLocalidad(nuevaLocalidad);
-				this.localidadesElegibles();
-				this.llenarTabla();
-				this.ventanaLocalidad.dispose();
-			}
+			
 			
 		}
-
+		
+		
+		
+		
 		
 
 }

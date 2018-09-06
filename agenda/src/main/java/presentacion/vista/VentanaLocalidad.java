@@ -63,12 +63,12 @@ public class VentanaLocalidad extends JFrame
 		txtCodPostal.setColumns(10);
 	}
 
-	public JTextField getTxtNombre() {
-		return txtNombre;
+	public String getTxtNombre() {
+		return txtNombre.getText();
 	}
 
-	public JTextField getTxtCodPostal() {
-		return txtCodPostal;
+	public String getTxtCodPostal() {
+		return txtCodPostal.getText();
 	}
 
 	public JButton getBtnAgregarLocalidad() {
