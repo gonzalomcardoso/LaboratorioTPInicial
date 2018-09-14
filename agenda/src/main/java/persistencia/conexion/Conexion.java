@@ -7,19 +7,29 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import presentacion.reportes.ReporteAgenda;
+import recursos.Propiedades;
 
 public class Conexion 
 {
 	public static Conexion instancia;
 	private Connection connection;
-	private Logger log = Logger.getLogger(Conexion.class);	
+	private Logger log = Logger.getLogger(Conexion.class);
+	String Ip; 
+	String Puerto;
+	String Usuario;
+	String Contrasena;
 	
 	private Conexion()
 	{
 		try
 		{
+			Ip = Propiedades.leer("ip");
+			Puerto = Propiedades.leer("puerto");
+			Usuario = Propiedades.leer("usuario");
+			Contrasena = Propiedades.leer("contrasena");
+			
 			Class.forName("com.mysql.jdbc.Driver"); // quitar si no es necesario
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda","root","root");
+			this.connection = DriverManager.getConnection("jdbc:mysql://"+Ip+":"+Puerto+"/agenda", Usuario, Contrasena);
 			log.info("Conexión exitosa");
 		}
 		catch(Exception e)

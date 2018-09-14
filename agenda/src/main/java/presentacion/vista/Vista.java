@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
 import persistencia.conexion.Conexion;
+import recursos.Propiedades;
 
 public class Vista
 {
@@ -23,6 +24,7 @@ public class Vista
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido", "Telefono", "Fecha de Nacimiento", "Direccion", "Altura", "Piso", "Localidad", "Mail", "Tipo de Contacto"};
+	private VentanaConfiguracion ventanaConfiguracion;
 
 	public Vista() 
 	{
@@ -33,6 +35,8 @@ public class Vista
 
 	private void initialize() 
 	{
+		this.ventanaConfiguracion = new VentanaConfiguracion();
+				
 		frame = new JFrame();
 		frame.setBounds(100, 100, 600, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,5 +143,14 @@ public class Vista
 	public String[] getNombreColumnas() 
 	{
 		return nombreColumnas;
+	}
+	
+
+	public VentanaConfiguracion getVentanaConfiguracion() {
+		return ventanaConfiguracion;
+	}
+
+	public void setVentanaConfiguracion(VentanaConfiguracion ventanaConfiguracion) {
+		this.ventanaConfiguracion = ventanaConfiguracion;
 	}
 }

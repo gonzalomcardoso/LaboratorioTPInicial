@@ -2,7 +2,10 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Agenda;
@@ -10,7 +13,9 @@ import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaContacto;
 import presentacion.vista.VentanaLocalidad;
 import presentacion.vista.VentanaPersona;
+import presentacion.vista.VentanaConfiguracion;
 import presentacion.vista.Vista;
+import recursos.Propiedades;
 import dto.ContactoDTO;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;
@@ -25,6 +30,7 @@ public class Controlador implements ActionListener
 		private VentanaPersona ventanaPersona; 
 		private VentanaLocalidad ventanaLocalidad; 
 		private VentanaContacto ventanaContacto;
+		private VentanaConfiguracion ventanaConfiguracion;
 		private Agenda agenda;
 		
 		
@@ -36,6 +42,7 @@ public class Controlador implements ActionListener
 			this.vista.getBtnEditar().addActionListener(this);
 			this.vista.getBtnBorrar().addActionListener(this);
 			this.vista.getBtnReporte().addActionListener(this);
+			this.vista.getVentanaConfiguracion().getBtnAgregarDatos().addActionListener(this);
 			this.agenda = agenda;
 			this.personas_en_tabla = null;
 			this.persona_a_editar = null;
@@ -333,6 +340,23 @@ public class Controlador implements ActionListener
 				
 			}
 			
+			else if (this.vista.getVentanaConfiguracion() != null && e.getSource() == this.vista.getVentanaConfiguracion().getBtnAgregarDatos()) {
+				
+				String nuevaIp = this.vista.getVentanaConfiguracion().getIp();
+				String nuevoPuerto = this.vista.getVentanaConfiguracion().getPuerto();
+				String nuevoUsuario = this.vista.getVentanaConfiguracion().getUsuario();
+				String nuevaContrasena = this.vista.getVentanaConfiguracion().getContrasena();
+				
+				Map<String, String> datos = new HashMap<String, String>();
+				datos.put("ip", nuevaIp);
+				datos.put("puerto", nuevoPuerto);
+				datos.put("usuario", nuevoUsuario);
+				datos.put("contrasena", nuevaContrasena);
+				datos.put("primeravez", "No");
+				Propiedades.guardar(datos);
+				
+				
+			}
 			
 			
 		}
