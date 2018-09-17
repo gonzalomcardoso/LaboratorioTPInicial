@@ -24,7 +24,7 @@ public class Vista
 	private JButton btnReporte;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido", "Telefono", "Fecha de Nacimiento", "Direccion", "Altura", "Piso", "Localidad", "Mail", "Tipo de Contacto"};
-	private VentanaConfiguracion ventanaConfiguracion;
+	
 
 	public Vista() 
 	{
@@ -35,7 +35,6 @@ public class Vista
 
 	private void initialize() 
 	{
-		this.ventanaConfiguracion = new VentanaConfiguracion();
 				
 		frame = new JFrame();
 		frame.setBounds(100, 100, 600, 300);
@@ -145,12 +144,4 @@ public class Vista
 		return nombreColumnas;
 	}
 	
-
-	public VentanaConfiguracion getVentanaConfiguracion() {
-		return ventanaConfiguracion;
-	}
-
-	public void setVentanaConfiguracion(VentanaConfiguracion ventanaConfiguracion) {
-		this.ventanaConfiguracion = ventanaConfiguracion;
-	}
 }

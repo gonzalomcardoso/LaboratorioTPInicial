@@ -30,6 +30,8 @@ public class Conexion
 			
 			Class.forName("com.mysql.jdbc.Driver"); // quitar si no es necesario
 			this.connection = DriverManager.getConnection("jdbc:mysql://"+Ip+":"+Puerto+"/agenda", Usuario, Contrasena);
+			//this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/agenda","root","root");
+			
 			log.info("Conexión exitosa");
 		}
 		catch(Exception e)

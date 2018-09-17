@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-03-06T22:23:14 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="284e0c88-a4b2-4ff8-98a2-d67b80bcffaf">
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="284e0c88-a4b2-4ff8-98a2-d67b80bcffaf">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="Fecha" class="java.lang.String"/>
 	<queryString language="SQL">
@@ -13,6 +12,30 @@
 	<field name="nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[nombre]]></fieldDescription>
 	</field>
+	<field name="fNacimiento" class="java.sql.Date">
+		<fieldDescription><![CDATA[fNacimiento]]></fieldDescription>
+	</field>
+	<field name="mesfNacimiento" class="java.lang.String"/>
+	<sortField name="fNacimiento"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{fNacimiento}.getMonth()]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement x="2" y="12" width="100" height="30" uuid="4c12ec47-8b85-4f1f-aa69-48f7a9e16d53"/>
+					<textFieldExpression><![CDATA[$F{mesfNacimiento}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField>
+					<reportElement x="20" y="7" width="100" height="30" uuid="d61a34dc-bdb7-4341-949f-816f8d44ffc7"/>
+					<textFieldExpression><![CDATA["Nacidos en "+$F{fNacimiento}.getMonth()+" son: "+$V{Group1_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -50,35 +73,45 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="31" splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<frame>
 				<reportElement x="2" y="6" width="550" height="23" uuid="23209a62-cc9d-4b81-8e93-aa9cc3a92b36"/>
 				<staticText>
-					<reportElement x="0" y="0" width="280" height="21" uuid="6f5462fa-eb72-479f-bb27-fb5ef7144791"/>
-					<textElement textAlignment="Center">
-						<font size="14"/>
-					</textElement>
-					<text><![CDATA[Nombre y apellido]]></text>
+					<reportElement x="167" y="-6" width="100" height="30" uuid="d55af008-152a-433d-8633-5fd3fc1b46f3">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be03ea24-296f-49dd-95e9-e8829c109733"/>
+					</reportElement>
+					<text><![CDATA[Dia]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="280" y="0" width="100" height="20" uuid="e2252ea3-811b-43d8-ae6b-e9b261b705f9"/>
-					<textElement textAlignment="Center">
-						<font size="14"/>
-					</textElement>
-					<text><![CDATA[Teléfono]]></text>
+					<reportElement x="0" y="-6" width="100" height="30" uuid="07232980-4902-44c5-b642-cf6402a0ae28"/>
+					<text><![CDATA[Mes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="-6" width="100" height="30" uuid="85bbe2ca-a777-4dc0-bd84-f20a417dfc9c"/>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="377" y="-6" width="100" height="30" uuid="4719cafe-b9ec-462e-97fb-7dbd3df5dd20"/>
+					<text><![CDATA[Telefono]]></text>
 				</staticText>
 			</frame>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<textField>
-				<reportElement x="5" y="0" width="225" height="18" uuid="4a345b01-b751-4529-b6d6-2ccf3c13ff66"/>
+				<reportElement x="280" y="3" width="100" height="18" uuid="4a345b01-b751-4529-b6d6-2ccf3c13ff66"/>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="285" y="1" width="215" height="18" uuid="dd3f7d4c-c2c3-4ee6-8d98-1b88fe0228ec"/>
+				<reportElement x="380" y="0" width="100" height="19" uuid="dd3f7d4c-c2c3-4ee6-8d98-1b88fe0228ec"/>
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="100" height="30" uuid="7c8fef60-1b6a-41e3-8779-9fd08e04aeba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be03ea24-296f-49dd-95e9-e8829c109733"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{fNacimiento}.getDay()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -86,7 +119,7 @@
 		<band height="7" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="33" splitType="Stretch">
+		<band height="39" splitType="Stretch">
 			<textField>
 				<reportElement x="355" y="0" width="100" height="30" uuid="5ce007da-8e81-48b7-91fd-8e603c20d7ef"/>
 				<textElement textAlignment="Right"/>
@@ -99,4 +132,24 @@
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="227">
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="205" y="27" width="200" height="200" uuid="dfe78cd9-4567-45dc-829d-51f939ba7b55"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{fNacimiento}.getMonth()]]></keyExpression>
+					<valueExpression><![CDATA[$V{Group1_COUNT}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</summary>
 </jasperReport>

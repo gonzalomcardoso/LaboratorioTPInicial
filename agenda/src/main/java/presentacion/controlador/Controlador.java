@@ -8,7 +8,11 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import org.apache.log4j.Logger;
+
 import modelo.Agenda;
+import persistencia.conexion.Conexion;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaContacto;
 import presentacion.vista.VentanaLocalidad;
@@ -31,18 +35,20 @@ public class Controlador implements ActionListener
 		private VentanaLocalidad ventanaLocalidad; 
 		private VentanaContacto ventanaContacto;
 		private VentanaConfiguracion ventanaConfiguracion;
+		private Logger log = Logger.getLogger(Controlador.class);
 		private Agenda agenda;
 		
 		
 		
 		public Controlador(Vista vista, Agenda agenda)
 		{
+
+			
 			this.vista = vista;
 			this.vista.getBtnAgregar().addActionListener(this);
 			this.vista.getBtnEditar().addActionListener(this);
 			this.vista.getBtnBorrar().addActionListener(this);
 			this.vista.getBtnReporte().addActionListener(this);
-			this.vista.getVentanaConfiguracion().getBtnAgregarDatos().addActionListener(this);
 			this.agenda = agenda;
 			this.personas_en_tabla = null;
 			this.persona_a_editar = null;
@@ -50,8 +56,19 @@ public class Controlador implements ActionListener
 		
 		public void inicializar()
 		{
-			this.llenarTabla();
-			this.vista.show();
+			
+			this.ventanaConfiguracion = new VentanaConfiguracion(this);
+			this.ventanaConfiguracion.getBtnAgregarDatos().addActionListener(this);
+			try{
+				this.llenarTabla();
+				this.vista.show();
+				log.info("Listo");
+			}
+			catch(Exception e){
+				
+				log.error("Conexión fallida", e);
+				
+			}
 			
 		}
 		
@@ -233,6 +250,26 @@ public class Controlador implements ActionListener
 				
 			}
 			
+			else if (this.ventanaConfiguracion != null && e.getSource() == this.ventanaConfiguracion.getBtnAgregarDatos()) {
+				
+				String nuevaIp = ventanaConfiguracion.getIp();
+				String nuevoPuerto = ventanaConfiguracion.getPuerto();
+				String nuevoUsuario = ventanaConfiguracion.getUsuario();
+				String nuevaContrasena = ventanaConfiguracion.getContrasena();
+				
+				Map<String, String> datos = new HashMap<String, String>();
+				datos.put("ip", nuevaIp);
+				datos.put("puerto", nuevoPuerto);
+				datos.put("usuario", nuevoUsuario);
+				datos.put("contrasena", nuevaContrasena);
+				datos.put("primeravez", "No");
+				Propiedades.guardar(datos);				
+				
+				this.ventanaConfiguracion.dispose();
+				
+				
+			}
+			
 			else if(e.getSource() == this.vista.getBtnEditar())
 			{
 				int fila_seleccionada = this.vista.getTablaPersonas().getSelectedRow();
@@ -340,23 +377,7 @@ public class Controlador implements ActionListener
 				
 			}
 			
-			else if (this.vista.getVentanaConfiguracion() != null && e.getSource() == this.vista.getVentanaConfiguracion().getBtnAgregarDatos()) {
-				
-				String nuevaIp = this.vista.getVentanaConfiguracion().getIp();
-				String nuevoPuerto = this.vista.getVentanaConfiguracion().getPuerto();
-				String nuevoUsuario = this.vista.getVentanaConfiguracion().getUsuario();
-				String nuevaContrasena = this.vista.getVentanaConfiguracion().getContrasena();
-				
-				Map<String, String> datos = new HashMap<String, String>();
-				datos.put("ip", nuevaIp);
-				datos.put("puerto", nuevoPuerto);
-				datos.put("usuario", nuevoUsuario);
-				datos.put("contrasena", nuevaContrasena);
-				datos.put("primeravez", "No");
-				Propiedades.guardar(datos);
-				
-				
-			}
+			
 			
 			
 		}

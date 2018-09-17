@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class Propiedades {
 	
-	private static final String direccion = "config.properties";
+	private static final String direccion = "src/main/resources/config.properties";
 
 	public static void guardar(Map<String, String> valores) {
 		Properties parametros = new Properties();

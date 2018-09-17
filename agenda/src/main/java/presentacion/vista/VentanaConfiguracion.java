@@ -21,11 +21,11 @@ public class VentanaConfiguracion extends JFrame {
 	private JButton btnAgregarDatos;
 	private Controlador controlador;
 	
-	public VentanaConfiguracion() 
+	public VentanaConfiguracion(Controlador controlador) 
 	{
 		
 		super();
-		//this.controlador = controlador;
+		this.controlador = controlador;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 343, 183);
@@ -77,7 +77,7 @@ public class VentanaConfiguracion extends JFrame {
 		txtContrasena.setColumns(10);
 		
 		btnAgregarDatos = new JButton("Ingresar");
-		//btnAgregarDatos.addActionListener(this.controlador);
+		btnAgregarDatos.addActionListener(this.controlador);
 		btnAgregarDatos.setBounds(93, 102, 89, 23);
 		panel.add(btnAgregarDatos);
 			
