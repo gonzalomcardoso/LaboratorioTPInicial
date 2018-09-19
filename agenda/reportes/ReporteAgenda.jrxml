@@ -15,7 +15,7 @@
 	<field name="fNacimiento" class="java.sql.Date">
 		<fieldDescription><![CDATA[fNacimiento]]></fieldDescription>
 	</field>
-	<field name="mesfNacimiento" class="java.lang.String"/>
+	<field name="mesfNacimiento" class="java.lang.Integer"/>
 	<sortField name="fNacimiento"/>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{fNacimiento}.getMonth()]]></groupExpression>

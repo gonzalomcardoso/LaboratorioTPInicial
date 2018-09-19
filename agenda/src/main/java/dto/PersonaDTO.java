@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import modelo.TimeUtils;
+
 public class PersonaDTO 
 {
 	private int idPersona;
@@ -131,7 +133,17 @@ public class PersonaDTO
 		return this.contact.getTipo();
 	}
 	
-	private String MonthMap(Integer mes) {
+	public Integer getFDiaNacimiento() {
+//		TimeUtils dateEdit = new TimeUtils();
+		return TimeUtils.getDay(fNacimiento);		
+	}
+	
+	public Integer getFMesNacimiento() {
+//		TimeUtils dateEdit = new TimeUtils();
+		return TimeUtils.getMonth(fNacimiento);		
+	}
+	
+	public String MonthMap(Integer mes) {
 		Map<Integer, String> meses = new HashMap<Integer,String> ();
 		meses.put(1, "Enero");
 		meses.put(2, "Febrero");
@@ -147,8 +159,8 @@ public class PersonaDTO
 		meses.put(12, "Diciembre");
 		return meses.get(mes);
 	}
-	public String getMesfNacimiento() {
-		return this.MonthMap(this.getfNacimiento().getMonth());
+	public String getMes() {
+		return this.MonthMap(this.getFMesNacimiento());
 	}
 	
 

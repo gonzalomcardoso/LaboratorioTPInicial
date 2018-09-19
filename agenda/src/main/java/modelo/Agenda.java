@@ -1,5 +1,6 @@
 package modelo;
 
+import java.sql.Date;
 import java.util.List;
 
 import dto.ContactoDTO;
@@ -39,6 +40,13 @@ public class Agenda
 	public List<PersonaDTO> obtenerPersonas()
 	{
 		return this.persona.readAll();		
+	}
+	
+	public List<PersonaDTO> buscarPersona(int idPersona, String nombre, String telefono,
+			String calle, String altura, String piso, LocalidadDTO localidad,
+			String mail, ContactoDTO contact, Date fNacimiento) {
+		PersonaDTO buscadoPersona = new PersonaDTO(idPersona,nombre,telefono,calle,altura,piso,localidad,mail,contact,fNacimiento);
+		return this.persona.search(buscadoPersona);
 	}
 
 	public void editarPersona(PersonaDTO editadaPersona) {
@@ -86,6 +94,23 @@ public class Agenda
 	public void borrarContacto(ContactoDTO contacto_a_eliminar) 
 	{
 		this.contacto.delete(contacto_a_eliminar);
+	}
+	
+	
+
+	public boolean isLocalidadUsed(LocalidadDTO localidad_usada) {
+		
+		if(!this.buscarPersona(0, null, null, null, null, null, localidad_usada, null, null, null).isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isContactUsed(ContactoDTO contacto_usado) {
+		if(!this.buscarPersona(0, null, null, null, null, null, null, null, contacto_usado, null).isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 	
 

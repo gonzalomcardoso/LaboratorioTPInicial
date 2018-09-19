@@ -36,6 +36,9 @@ public class VentanaPersona extends JFrame
 	private JButton btnEditarPersona;
 	private JButton btnAgregarLocalidad;
 	private JButton btnAgregarContact;
+	private JButton btnBorrarLocalidad;
+	private JButton btnBorrarContacto;
+	
 	private Controlador controlador;
 	
 
@@ -53,12 +56,12 @@ public class VentanaPersona extends JFrame
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(12, 22, 582, 500);
+		panel.setBounds(12, 28, 582, 516);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNombreYApellido = new JLabel("Nombre y apellido");
-		lblNombreYApellido.setBounds(10, 11, 113, 14);
+		lblNombreYApellido.setBounds(10, 11, 153, 14);
 		panel.add(lblNombreYApellido);
 		
 		JLabel lblTelfono = new JLabel("Telefono");
@@ -82,15 +85,15 @@ public class VentanaPersona extends JFrame
 		panel.add(lblLocalidad);
 		
 		JLabel lblMail = new JLabel("Mail");
-		lblMail.setBounds(10, 257, 113, 14);
+		lblMail.setBounds(10, 288, 113, 14);
 		panel.add(lblMail);
 		
 		JLabel lblContacto = new JLabel("Tipo de Contacto");
-		lblContacto.setBounds(10, 298, 113, 14);
+		lblContacto.setBounds(10, 325, 171, 20);
 		panel.add(lblContacto);
 		
 		JLabel lblFNacimiento = new JLabel("Fecha de Nacimiento");
-		lblFNacimiento.setBounds(10, 339, 113, 14);
+		lblFNacimiento.setBounds(10, 400, 153, 14);
 		panel.add(lblFNacimiento);
 		
 		txtNombre = new JTextField();
@@ -123,7 +126,7 @@ public class VentanaPersona extends JFrame
 			
 			btnEditarPersona = new JButton("Editar Persona");
 			btnEditarPersona.addActionListener(this.controlador);
-			btnEditarPersona.setBounds(208, 445, 89, 23);
+			btnEditarPersona.setBounds(208, 445, 164, 23);
 			panel.add(btnEditarPersona);
 			
 			this.setVisible(true);
@@ -133,7 +136,7 @@ public class VentanaPersona extends JFrame
 			
 			btnAgregarPersona = new JButton("Agregar Persona");
 			btnAgregarPersona.addActionListener(this.controlador);
-			btnAgregarPersona.setBounds(208, 445, 164, 20);
+			btnAgregarPersona.setBounds(208, 445, 164, 23);
 			panel.add(btnAgregarPersona);
 			
 			
@@ -144,49 +147,59 @@ public class VentanaPersona extends JFrame
 		}
 		
 		
-		txtNombre.setBounds(133, 8, 164, 20);
+		txtNombre.setBounds(186, 8, 164, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
-		txtTelefono.setBounds(133, 49, 164, 20);
+		txtTelefono.setBounds(186, 49, 164, 20);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
-		txtCalle.setBounds(133, 93, 164, 20);
+		txtCalle.setBounds(186, 93, 164, 20);
 		panel.add(txtCalle);
 		txtCalle.setColumns(10);
 		
-		txtAltura.setBounds(133, 134, 164, 20);
+		txtAltura.setBounds(186, 134, 164, 20);
 		panel.add(txtAltura);
 		txtAltura.setColumns(10);
 		
-		txtPiso.setBounds(133, 175, 164, 20);
+		txtPiso.setBounds(186, 175, 164, 20);
 		panel.add(txtPiso);
 		txtPiso.setColumns(10);
 		
-		txtLocalidad.setBounds(133, 216, 164, 20);
+		txtLocalidad.setBounds(186, 216, 164, 20);
 		panel.add(txtLocalidad);
 		
 		btnAgregarLocalidad = new JButton("Agregar Localidad");
 		btnAgregarLocalidad.addActionListener(this.controlador);
-		btnAgregarLocalidad.setBounds(369, 216, 164, 20);
+		btnAgregarLocalidad.setBounds(380, 216, 164, 20);
 		panel.add(btnAgregarLocalidad);
 		
-		txtMail.setBounds(133, 257, 164, 20);
+		txtMail.setBounds(186, 286, 164, 20);
 		panel.add(txtMail);
 		txtMail.setColumns(10);
 		
-		txtContacto.setBounds(133, 298, 164, 20);
+		txtContacto.setBounds(186, 325, 164, 20);
 		panel.add(txtContacto);
 		
 		btnAgregarContact = new JButton("Agregar Contacto");
 		btnAgregarContact.addActionListener(this.controlador);
-		btnAgregarContact.setBounds(369, 298, 164, 20);
+		btnAgregarContact.setBounds(380, 325, 164, 20);
 		panel.add(btnAgregarContact);
 		
 		
-		txtFNac.setBounds(133, 339, 250, 30);
+		txtFNac.setBounds(186, 400, 250, 30);
 		panel.add(txtFNac);
+		
+		btnBorrarLocalidad = new JButton("Borrar Localidad");
+		btnBorrarLocalidad.addActionListener(this.controlador);
+		btnBorrarLocalidad.setBounds(380, 248, 164, 20);
+		panel.add(btnBorrarLocalidad);
+		
+		btnBorrarContacto = new JButton("Borrar Contacto");
+		btnBorrarContacto.addActionListener(this.controlador);
+		btnBorrarContacto.setBounds(380, 357, 164, 20);
+		panel.add(btnBorrarContacto);
 		
 		
 	}
@@ -260,6 +273,26 @@ public class VentanaPersona extends JFrame
 		return btnAgregarContact;
 	}
 	
+	public JButton getBtnBorrarLocalidad() {
+		return btnBorrarLocalidad;
+	}	
+
+	public void setBtnBorrarLocalidad(JButton btnBorrarLocalidad) {
+		this.btnBorrarLocalidad = btnBorrarLocalidad;
+	}
+
+	
+	public JButton getBtnBorrarContacto() {
+		return btnBorrarContacto;
+	}
+
+	
+	public void setBtnBorrarContacto(JButton btnBorrarContacto) {
+		this.btnBorrarContacto = btnBorrarContacto;
+	}
+
+
+
 	public void refresh() {
 		
 		this.txtLocalidad = new JComboBox<String>();
@@ -273,8 +306,5 @@ public class VentanaPersona extends JFrame
 			this.txtContacto.addItem(i.next().getTipo());
 		}
 	}
- 
-	
-	
 }
 

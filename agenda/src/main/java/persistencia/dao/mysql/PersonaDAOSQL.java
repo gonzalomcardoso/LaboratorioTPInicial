@@ -18,7 +18,8 @@ public class PersonaDAOSQL implements PersonaDAO
 	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
 	private static final String readall = "SELECT * FROM personas";
 	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, calle = ?, altura = ?, piso = ?, Localidad = ?, mail = ?, TipoContacto = ?, FNacimiento = ? WHERE idPersona = ?";
-		
+	private static final String search = "SELECT * FROM personas WHERE nombre = ? or localidad = ? or TipoContacto = ? order by idPersona asc";
+	
 	public boolean insert(PersonaDTO persona)
 	{
 		PreparedStatement statement;
@@ -116,5 +117,41 @@ public class PersonaDAOSQL implements PersonaDAO
 		}
 		
 		return false;
+	}
+	
+	public List<PersonaDTO> search(PersonaDTO persona_a_buscar) {
+		{
+			PreparedStatement statement;
+			ResultSet resultSet; //Guarda el resultado de la query
+			ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
+			Conexion conexion = Conexion.getConexion();
+			try 
+			{	
+				statement = conexion.getSQLConexion().prepareStatement(search);
+				if(persona_a_buscar.getNombre()!=null)
+					statement.setString(1, persona_a_buscar.getNombre());
+				else 
+					statement.setString(1, persona_a_buscar.getNombre());
+				if(persona_a_buscar.getLocalidad()!=null)
+					statement.setString(2, persona_a_buscar.getLocalidad().getNombre());
+				else
+					statement.setString(2, null);
+				if(persona_a_buscar.getContact()!=null)
+					statement.setString(3, persona_a_buscar.getContact().getTipo());
+				else
+					statement.setString(3, null);
+				resultSet = statement.executeQuery();
+				
+				while(resultSet.next())
+				{
+					personas.add(new PersonaDTO(resultSet.getInt("idPersona"), resultSet.getString("Nombre"), resultSet.getString("Telefono"),  resultSet.getString("Calle"),  resultSet.getString("Altura"),  resultSet.getString("Piso"), new LocalidadDTO(0,resultSet.getString("Localidad"),""),  resultSet.getString("Mail"), new ContactoDTO(0,resultSet.getString("TipoContacto")), resultSet.getDate("FNacimiento")));
+				}
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			return personas;
+		}
 	}
 }

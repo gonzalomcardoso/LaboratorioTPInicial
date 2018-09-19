@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import modelo.Agenda;
-import persistencia.conexion.Conexion;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaContacto;
 import presentacion.vista.VentanaLocalidad;
@@ -57,15 +56,15 @@ public class Controlador implements ActionListener
 		public void inicializar()
 		{
 			
-			this.ventanaConfiguracion = new VentanaConfiguracion(this);
-			this.ventanaConfiguracion.getBtnAgregarDatos().addActionListener(this);
+			
 			try{
 				this.llenarTabla();
 				this.vista.show();
 				log.info("Listo");
 			}
 			catch(Exception e){
-				
+				this.ventanaConfiguracion = new VentanaConfiguracion(this);
+				this.ventanaConfiguracion.getBtnAgregarDatos().addActionListener(this);
 				log.error("Conexión fallida", e);
 				
 			}
@@ -263,8 +262,8 @@ public class Controlador implements ActionListener
 				datos.put("usuario", nuevoUsuario);
 				datos.put("contrasena", nuevaContrasena);
 				datos.put("primeravez", "No");
-				Propiedades.guardar(datos);				
-				
+				Propiedades.guardar(datos);	
+				log.info("Reiniciar");
 				this.ventanaConfiguracion.dispose();
 				
 				
@@ -307,9 +306,32 @@ public class Controlador implements ActionListener
 				this.ventanaLocalidad = new VentanaLocalidad(this);
 			}
 			
+			else if(e.getSource() == this.ventanaPersona.getBtnBorrarLocalidad())
+			{
+				LocalidadDTO localidadDTOABorrar = this.agenda.buscarLocalidad(this.ventanaPersona.getTxtLocalidad());
+				if(!this.agenda.isLocalidadUsed(localidadDTOABorrar)){
+					this.agenda.borrarLocalidad(localidadDTOABorrar);
+				}
+				else {
+					log.info("Localidad usada por una Persona");
+				}
+				
+			}
+			
 			else if(e.getSource() == this.ventanaPersona.getBtnAgregarContact())
 			{
 				this.ventanaContacto = new VentanaContacto(this);
+			}
+			
+			else if(e.getSource() == this.ventanaPersona.getBtnBorrarContacto())
+			{
+				ContactoDTO contactoABorrar = this.agenda.buscarContacto(this.ventanaPersona.getTxtContacto());
+				if(!this.agenda.isContactUsed(contactoABorrar)) {
+					this.agenda.borrarContacto(contactoABorrar);
+				}
+				else {
+					log.info("Tipo de contacto usado por una Persona");
+				}
 			}
 			
 			else if(e.getSource() == this.ventanaPersona.getBtnAgregarPersona())
