@@ -6,16 +6,24 @@
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
-	<field name="telefono" class="java.lang.String">
-		<fieldDescription><![CDATA[telefono]]></fieldDescription>
-	</field>
 	<field name="nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[telefono]]></fieldDescription>
 	</field>
 	<field name="fNacimiento" class="java.sql.Date">
 		<fieldDescription><![CDATA[fNacimiento]]></fieldDescription>
 	</field>
-	<field name="mesfNacimiento" class="java.lang.Integer"/>
+	<field name="FDiaNacimiento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[FDiaNacimiento]]></fieldDescription>
+	</field>
+	<field name="FMesNacimiento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[FMesNacimiento]]></fieldDescription>
+	</field>
+	<field name="mes" class="java.lang.String">
+		<fieldDescription><![CDATA[mes]]></fieldDescription>
+	</field>
 	<sortField name="fNacimiento"/>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{fNacimiento}.getMonth()]]></groupExpression>
@@ -23,7 +31,7 @@
 			<band height="50">
 				<textField>
 					<reportElement x="2" y="12" width="100" height="30" uuid="4c12ec47-8b85-4f1f-aa69-48f7a9e16d53"/>
-					<textFieldExpression><![CDATA[$F{mesfNacimiento}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -31,7 +39,7 @@
 			<band height="50">
 				<textField>
 					<reportElement x="20" y="7" width="100" height="30" uuid="d61a34dc-bdb7-4341-949f-816f8d44ffc7"/>
-					<textFieldExpression><![CDATA["Nacidos en "+$F{fNacimiento}.getMonth()+" son: "+$V{Group1_COUNT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Nacidos en "+$F{mes}+" son: "+$V{Group1_COUNT}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -111,7 +119,7 @@
 				<reportElement x="170" y="0" width="100" height="30" uuid="7c8fef60-1b6a-41e3-8779-9fd08e04aeba">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be03ea24-296f-49dd-95e9-e8829c109733"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{fNacimiento}.getDay()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{FDiaNacimiento}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -136,14 +144,15 @@
 		<band height="227">
 			<pieChart>
 				<chart evaluationTime="Report">
-					<reportElement x="205" y="27" width="200" height="200" uuid="dfe78cd9-4567-45dc-829d-51f939ba7b55"/>
+					<reportElement x="205" y="27" width="200" height="200" uuid="183a39fc-f699-4e8f-a33f-d340606c209d"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<pieDataset>
-					<keyExpression><![CDATA[$F{fNacimiento}.getMonth()]]></keyExpression>
+					<keyExpression><![CDATA[$F{FMesNacimiento}]]></keyExpression>
 					<valueExpression><![CDATA[$V{Group1_COUNT}]]></valueExpression>
+					<labelExpression><![CDATA[$F{mes}]]></labelExpression>
 				</pieDataset>
 				<piePlot>
 					<plot/>

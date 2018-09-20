@@ -145,18 +145,18 @@ public class PersonaDTO
 	
 	public String MonthMap(Integer mes) {
 		Map<Integer, String> meses = new HashMap<Integer,String> ();
-		meses.put(1, "Enero");
-		meses.put(2, "Febrero");
-		meses.put(3, "Marzo");
-		meses.put(4, "Abril");
-		meses.put(5, "Mayo");
-		meses.put(6, "Junio");
-		meses.put(7, "Julio");
-		meses.put(8, "Agosto");
-		meses.put(9, "Septiembre");
-		meses.put(10, "Octubre");
-		meses.put(11, "Noviembre");
-		meses.put(12, "Diciembre");
+		meses.put(0, "Enero");
+		meses.put(1, "Febrero");
+		meses.put(2, "Marzo");
+		meses.put(3, "Abril");
+		meses.put(4, "Mayo");
+		meses.put(5, "Junio");
+		meses.put(6, "Julio");
+		meses.put(7, "Agosto");
+		meses.put(8, "Septiembre");
+		meses.put(9, "Octubre");
+		meses.put(10, "Noviembre");
+		meses.put(11, "Diciembre");
 		return meses.get(mes);
 	}
 	public String getMes() {
